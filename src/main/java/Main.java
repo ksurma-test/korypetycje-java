@@ -1,148 +1,122 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import javafx.css.Match;
 
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class Main {
 
-    // Ala ma kota
+    public static void main(String[] args) throws IOException {
+        //zad1();
 
-    // unsiged nie ma plus minus tylko zawsze plus w innych językach niż java
+        String fileContents = new String(Files.readAllBytes(Paths.get("text.txt")));
+        //List<String> lines = Files.readAllLines(Paths.get("doskonale.txt"));
 
+        Map<String, Integer> map = new HashMap<>();
 
+        Matcher matcher = Pattern.compile("\\w+").matcher(fileContents);
+//                .results()
+//                .forEach(matchResult -> System.out.println(matchResult.group()));
 
-    public static int countChar(String str , char c) {
-        int counter = 0;
-        for (int i = 0; i <str.length() ; i++) {
-            if(str.charAt(i)==c) {
-                counter++;
+//        Map<String, Long> counted = Pattern.compile("\\w+")
+//                .matcher(fileContents)
+//                .results()
+//                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+
+        String s;
+        while (matcher.find()) {
+            s = matcher.group();
+
+            if (map.containsKey(s)) {
+                map.put(s, map.get(s) + 1);
+            } else {
+                map.put(s, 1);
             }
-
-        }
-        return counter;
-    }
-
-    public static void main(String[] args) {
-
-        char c = 'A';
-        c++;
-
-        System.out.println(c);
-
-        System.out.println((int) c);
-
-        int[] array = new int[10];
-
-        // indeksowanie w tablicy zawsze jest od zera 
-        array[0] = 1;
-        array[1] = 2;
-
-        for (int i = 0; i < 10; i++) {
-            array[i] = i + 1;
         }
 
-        for (int i = 0; i < 10; i++) {
-            System.out.println(array[i]);
-        }
-
-        for (int i = 0; i < 10; i++) {
-            array[i] = (i + 1) * 5;
-        }
+        map.forEach((word, count) -> {
+            System.out.println("Slowo " + word + " wystapilo " + count + " razy.");
+        });
 
 
-        String text = "Hello World";
-        // dobrze
-        if (text.equals("abc")) {
-
-
-        }
-
-        for (char b : text.toCharArray()) {
-            System.out.println(b);
-        }
-
-        String imie = "Kamil";
-
-        for (int i = 0; i < imie.length(); i++) {
-
-            System.out.println(imie.charAt(i));
-        }
-
-        String str = "Ala ma kota";
-        //  char c ="a";
-
-        System.out.println("Ilość liter " + countChar("Ala ma kota", 'a'));
-        if (str.contains("kot")) {
-
-            System.out.println("Zawiera ciąg kot");
-        } else {
-            System.out.println("Nie zawiera ciągu kot");
-        }
-
-        str = "kot , kot , kot";
-
-
-        int indexOfc = str.indexOf("c");
-        System.out.println(indexOfc);
-        System.out.println(str.lastIndexOf("kot"));
-
-
-        String fileContents = "Ala ma kota, coś tam cos tam";
-        String[] words = fileContents.split(" ");
-
-// po lewej stronie to co się znajduje w środku po czym iterujemy
+//        try {
+//            String fileContents = new String(Files.readAllBytes(Paths.get("doskonale.txt")));
+//            //List<String> lines = Files.readAllLines(Paths.get("doskonale.txt"));
 //
-       for (String s : words) {
-            System.out.println(s);
-        }
-        List<String> list = new ArrayList<String>();
-        list.add("abc"); // 0
-        list.add("def"); // indeks 1
-        list.add("roz");
-        list.remove(0); // remove("abc);
-        System.out.println(list.get(0));
-        String sentence  = "";
-        System.out.println(sentence.isEmpty());
-        System.out.println(list.size());
+//            String[] data = fileContents.split(",+|\\.|\\(|\\)|\\s+");
+//
+//            Map<Integer, Integer> map = new HashMap<>();
+//
+//            int i;
+//            for (String s : data) {
+//                i = Integer.parseInt(s);
+//
+//                if (map.containsKey(i)) {
+//                    map.put(i, map.get(i) + 1);
+//                } else {
+//                    map.put(i, 1);
+//                }
+//            }
+//
+//            map.forEach((k, v) -> {
+//                System.out.println(k + " wystapilo " + v + " razy");
+//            });
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 
-        for (int i = 0; i < list.size(); i++) {
-            System.out.println(list.get(i)); // array[i]
-        }
+        BufferedWriter bw = new BufferedWriter(new FileWriter("example.txt", true));
 
-        for (String s : list)
-            System.out.println(s);
+        bw.append("jakis tekst")
+                .append("\r\n")
+                .flush();
 
-        List<String> l = List.of("Ala" , "ma", "kota");
+        bw.close();
 
-List<String> words2 = new ArrayList<>(Arrays.asList("Abc" , "abc" , "Kota", "a"));
-// metoda zwracająca wyrazy dłuższe niz 3 znaki
-
-        System.out.println(coutLongerThan(l, 2));
-        System.out.println(countUpperCaseCharList(words2));
     }
 
+    public static void zad1() {
+        try (BufferedReader br = new BufferedReader(new FileReader("doskonale.txt"))) {
 
-    public static int coutLongerThan(List<String> list , int n) {
-        int counter=0;
-        for (String s: list) {
-            if(s.length()>n){
-                counter++;
+            String[] data;
+            int i;
+
+            String line;
+            while ((line = br.readLine()) != null) {
+                data = line.split("\\s+");
+
+                for (String s : data) {
+                    i = Integer.parseInt(s);
+
+                    if (sumOfDividers(i) == i) {
+                        System.out.println(i + " jest doskonala");
+                    }
+                }
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static int sumOfDividers(int n) {
+        int sum = 0;
+
+        for (int i = 1; i <= n / 2; i++) {
+            if (n % i == 0) {
+                sum += i;
             }
         }
-return counter;
-    }
 
-    public static int countUpperCaseCharList(List<String> list){
-        int counter=0;
-        for (String s : list) {
-            for (char c: s.toCharArray()) {
-               if(Character.isUpperCase(c)){
-                   counter++;
-                 //  counter += Character.isUpperCase(c) ? 1:0;
-               }
-            }
-        }return counter;
+        return sum;
     }
-
 
 }
