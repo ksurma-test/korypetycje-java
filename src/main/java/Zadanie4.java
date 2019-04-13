@@ -20,6 +20,8 @@ public class Zadanie4 {
         System.out.println(countZadanie_3());
         System.out.println("Zadanie 10");
         stringToBinary("Ala ma kota");
+        System.out.println("countInspire");
+        countInspire();
     }
 
 
@@ -52,6 +54,7 @@ public class Zadanie4 {
         }
         return number.reverse().toString();
     }
+
 
     public static String decToTro(int n) {
         StringBuilder number = new StringBuilder();
@@ -93,5 +96,11 @@ public class Zadanie4 {
     }
 
 
+    public static void countInspire() {
+
+        char c = 'A';
+
+        System.out.println((int) c);
+    }
 
 }
