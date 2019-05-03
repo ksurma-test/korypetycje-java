@@ -6,7 +6,7 @@ public class Vehicle {
 
         System.out.println("Tankuje pojazd");
 
-        // super wywołuje metodę z klasy bazowej 
+        // super wywołuje metodę z klasy bazowej
     }
 
 }
