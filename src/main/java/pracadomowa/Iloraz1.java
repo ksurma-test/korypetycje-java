@@ -1,5 +1,8 @@
 package pracadomowa;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Iloraz1 {
@@ -18,6 +21,13 @@ public class Iloraz1 {
         number2 = scanner.nextInt();
         System.out.println("Wynik ilorazu");
         System.out.println(getIloraz());
+
+        try(BufferedWriter bw = new BufferedWriter(new FileWriter("wynik.txt"))) {
+            bw.append(String.valueOf(getIloraz())).append("\r\n").flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        // \r - od początku lini , \n - nowa linia
     }
 
     public static int getIloraz(){
